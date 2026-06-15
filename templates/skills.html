@@ -1,0 +1,11 @@
+{% for skill in skills %}
+
+<p>
+    {{ skill[2] }} - {{ skill[3] }}
+
+    <a href="/delete_skill/{{ skill[0] }}">
+        Delete
+    </a>
+</p>
+
+{% endfor %}

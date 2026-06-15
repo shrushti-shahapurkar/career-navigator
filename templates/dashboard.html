@@ -2,21 +2,25 @@
 <html>
 <head>
     <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
-    <h1>Student Dashboard</h1>
+<div class="container">
 
-    <h3>Welcome Shrushti!</h3>
+    <h1>Welcome {{ name }}</h1>
 
-    <ul>
-        <li>Skills Learned: 0</li>
-        <li>Internships Completed: 1</li>
-        <li>Projects Built: 1</li>
-        <li>Current SGPA: 8.63</li>
-    </ul>
+    <div class="menu">
+        <a href="/skills">Skills</a>
+        <a href="/logout">Logout</a>
+    </div>
 
-    <a href="/">Home</a>
+    <div class="card">
+        <h2>Career Navigator Dashboard</h2>
+        <p>Manage your skills and track your growth.</p>
+    </div>
+
+</div>
 
 </body>
 </html>
