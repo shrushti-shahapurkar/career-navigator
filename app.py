@@ -8,60 +8,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 import sqlite3
 
-def init_db():
-    conn = sqlite3.connect("database.db")
-    cursor = conn.cursor()
 
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        email TEXT,
-        password TEXT
-    )
-    """)
-
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS skills (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        skill_name TEXT,
-        status TEXT
-    )
-    """)
-
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS internships (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        company TEXT,
-        role TEXT,
-        duration TEXT
-    )
-    """)
-
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS projects (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        project_name TEXT,
-        description TEXT,
-        github_link TEXT
-    )
-    """)
-
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS certificates (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        certificate_name TEXT,
-        organization TEXT,
-        issue_date TEXT
-    )
-    """)
-
-    conn.commit()
-    conn.close()
 
 
 
@@ -70,7 +17,52 @@ app.secret_key = "career_navigator_secret"
 
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
+def init_db():
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
 
+    cursor.execute("""CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        email TEXT,
+        password TEXT
+    )""")
+
+    cursor.execute("""CREATE TABLE IF NOT EXISTS skills (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        skill_name TEXT,
+        status TEXT
+    )""")
+
+    cursor.execute("""CREATE TABLE IF NOT EXISTS internships (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        company TEXT,
+        role TEXT,
+        duration TEXT
+    )""")
+
+    cursor.execute("""CREATE TABLE IF NOT EXISTS projects (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        project_name TEXT,
+        description TEXT,
+        github_link TEXT
+    )""")
+
+    cursor.execute("""CREATE TABLE IF NOT EXISTS certificates (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        certificate_name TEXT,
+        organization TEXT,
+        issue_date TEXT
+    )""")
+
+    conn.commit()
+    conn.close()
+
+    init_db()
 
 
 # ---------------- AI CAREER ----------------
@@ -951,5 +943,4 @@ def edit_certificate(id):
     )
 
 if __name__ == '__main__':
-    init_db()
     app.run(debug=True)
