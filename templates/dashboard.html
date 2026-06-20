@@ -1,45 +1,348 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Navigator Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   <link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .navbar {
+            background-color: #111827;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+        }
+
+        .profile-card,
+        .card-box,
+        .chart-card,
+        .resume-card {
+            border-radius: 15px;
+        }
+
+        .profile-card {
+            background: white;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .welcome-box {
+            background: linear-gradient(135deg, #4f46e5, #3b82f6);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+        }
+
+        .card-box {
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.card-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 10px 25px rgba(0,0,0,0.15);
+}
+
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+        }
+        .swiper {
+    width: 100%;
+    padding: 10px 0;
+}
+
+.swiper-slide {
+    width: 280px;
+}
+
+.swiper-slide .card {
+    border-radius: 20px;
+    min-height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    </style>
 </head>
+
 <body>
 
-<nav class="navbar">
-    <h2>Career Navigator</h2>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <span class="navbar-brand">🚀 Career Navigator</span>
 
-    <div>
-        <a href="/dashboard">Dashboard</a>
-        <a href="/skills">Skills</a>
-        <a href="/logout">Logout</a>
+        <div>
+            <a href="/dashboard" class="btn btn-outline-light btn-sm">Dashboard</a>
+            <a href="/skills" class="btn btn-outline-light btn-sm">Skills</a>
+            <a href="/internships" class="btn btn-outline-light btn-sm">Internships</a>
+             <a href="/projects" class="btn btn-outline-light btn-sm">Projects</a>
+             <a href="/certificates" class="btn btn-outline-light btn-sm">Certificates</a>
+
+            <a href="/logout" class="btn btn-danger btn-sm">Logout</a>
+             
+        </div>
     </div>
 </nav>
+<div id="dashboardSlider" class="carousel slide mb-4" data-bs-ride="carousel">
 
-<div class="dashboard-container">
+    <div class="carousel-inner rounded shadow">
 
-    <h1>Welcome, {{ name }} 👋</h1>
-
-    <div class="dashboard-cards">
-
-        <div class="dashboard-card">
-            <h3>📚 Skills</h3>
-            <p>Track and manage your technical skills.</p>
+        <div class="carousel-item active">
+            
         </div>
 
-        <div class="dashboard-card">
-            <h3>🎯 Career Goal</h3>
-            <p>Plan your future learning roadmap.</p>
+        <div class="carousel-item">
+            
         </div>
 
-        <div class="dashboard-card">
-            <h3>💼 Internship</h3>
-            <p>Record your internship experience.</p>
+        <div class="carousel-item">
+           
         </div>
 
     </div>
 
 </div>
+
+<div class="container mt-4">
+
+    <!-- Profile -->
+    <div class="profile-card mb-4">
+
+        {% if profile_pic %}
+        <img
+            src="{{ url_for('static', filename='uploads/' + profile_pic) }}"
+            class="rounded-circle shadow profile-img">
+        {% else %}
+        <img
+            src="https://via.placeholder.com/120"
+            class="rounded-circle shadow profile-img">
+        {% endif %}
+
+        <h3 class="mt-3">{{ name }}</h3>
+
+        {% if bio %}
+            <p class="text-muted">{{ bio }}</p>
+        {% else %}
+            <p class="text-muted">No bio added yet.</p>
+        {% endif %}
+
+    </div>
+
+    <!-- Welcome -->
+<div class="welcome-box shadow mb-4">
+    <h2>Welcome, {{ name }} 👋</h2>
+    <p class="mb-0">
+        Track your skills, internships, and career growth in one place.
+    </p>
+</div>
+
+<!-- Sliding Dashboard Cards -->
+<div class="swiper mySwiper mb-4">
+
+    <div class="swiper-wrapper">
+
+        <div class="swiper-slide">
+            <div class="card shadow p-4 text-center">
+                <h2>{{ total_skills }}</h2>
+                <h5>📚 Skills</h5>
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div class="card shadow p-4 text-center">
+                <h2>{{ total_internships }}</h2>
+                <h5>💼 Internships</h5>
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div class="card shadow p-4 text-center">
+                <h2>{{ total_projects }}</h2>
+                <h5>🚀 Projects</h5>
+            </div>
+        </div>
+
+         <div class="swiper-slide">
+            <div class="card shadow p-4 text-center">
+                <h2>{{ total_certificates }}</h2>
+                <h5>Certificates</h5>
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div class="card shadow p-4 text-center">
+                <h4>🤖 AI Career</h4>
+                <small>{{ career }}</small>
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div class="card shadow p-4 text-center">
+                <a href="/skills" class="btn btn-primary w-100">
+                    Open Skills
+                </a>
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div class="card shadow p-4 text-center">
+                <a href="/internships" class="btn btn-success w-100">
+                    Open Internships
+                </a>
+            </div>
+        </div>
+
+        <div class="swiper-slide">
+            <div class="card shadow p-4 text-center">
+                <a href="/projects" class="btn btn-dark w-100">
+                    Open Projects
+                </a>
+            </div>
+        </div>
+         <div class="swiper-slide">
+            <div class="card shadow p-4 text-center">
+                <a href="/certificates" class="btn btn-dark w-100">
+                    Open certificates
+                </a>
+            </div>
+        </div>
+</div>
+
+    </div>
+
+</div>
+
+<!-- AI Career -->
+<div class="card shadow mt-4 p-4 text-center" data-aos="zoom-in">
+
+    <h4>🤖 AI Career Suggestion</h4>
+
+    {% if career %}
+        <h3 class="text-primary">{{ career }}</h3>
+    {% else %}
+        <p>Add more skills to get recommendations.</p>
+    {% endif %}
+
+</div>
+
+<!-- Skill Chart -->
+<div class="card chart-card shadow mt-4 p-4" data-aos="fade-up">
+
+    <h4>📊 Skill Analysis</h4>
+
+    <canvas id="skillChart"></canvas>
+
+</div>
+
+    <!-- Resume -->
+    <div class="card resume-card shadow mt-4 p-4 text-center">
+        <h4>📄 Resume Generator</h4>
+        <p>Generate and download your resume PDF.</p>
+
+        <a href="/download_resume" class="btn btn-success">
+            Download Resume PDF
+        </a>
+    </div>
+
+
+    <a href="/roadmap" class="btn btn-warning">
+    🎯 View Career Roadmap
+</a>
+  <!-- Update Profile -->
+    <div class="card shadow mt-4 p-4">
+
+        <h4>Update Profile</h4>
+
+        <form action="/upload_profile" method="POST" enctype="multipart/form-data">
+
+            <label class="form-label mt-2">Profile Picture</label>
+            <input type="file" name="profile_pic" class="form-control">
+
+            <label class="form-label mt-3">Bio</label>
+            <textarea
+                name="bio"
+                class="form-control"
+                rows="4"
+                placeholder="Write something about yourself"></textarea>
+
+            <button class="btn btn-primary mt-3 w-100">
+                Save Profile
+            </button>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<script>
+const ctx = document.getElementById('skillChart');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Python', 'HTML', 'CSS', 'SQL', 'Flask'],
+        datasets: [{
+            label: 'Skill Count',
+          data: [
+    {{ python_count if python_count is defined else 0 }},
+    {{ html_count if html_count is defined else 0 }},
+    {{ css_count if css_count is defined else 0 }},
+    {{ sql_count if sql_count is defined else 0 }},
+    {{ flask_count if flask_count is defined else 0 }}
+]
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+new Swiper(".mySwiper", {
+    slidesPerView: 3,
+    spaceBetween: 20,
+    loop: true,
+    autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+    },
+    breakpoints: {
+        320: {
+            slidesPerView: 1
+        },
+        768: {
+            slidesPerView: 2
+        },
+        1024: {
+            slidesPerView: 3
+        }
+    }
+});
+</script>
 
 </body>
 </html>
