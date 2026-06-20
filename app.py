@@ -950,6 +950,6 @@ def edit_certificate(id):
         certificate=certificate
     )
 
-app = Flask(__name__)
-
-init_db()   # ✅ THIS MUST RUN ON IMPORT
+if __name__ == '__main__':
+    init_db()
+    app.run(debug=True)
