@@ -1,15 +1,10 @@
 from flask import Flask, render_template, request, redirect, session
 import sqlite3
 import os
-from werkzeug.utils import secure_filename
-import os
 import time
+from werkzeug.utils import secure_filename
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
-import sqlite3
-
-
-
 
 
 app = Flask(__name__)
@@ -17,6 +12,8 @@ app.secret_key = "career_navigator_secret"
 
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
+
+# ---------------- DATABASE ----------------
 def init_db():
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
@@ -62,7 +59,9 @@ def init_db():
     conn.commit()
     conn.close()
 
-    init_db()
+
+# ---------------- INIT DB (IMPORTANT FIX) ----------------
+init_db()
 
 
 # ---------------- AI CAREER ----------------
@@ -943,4 +942,5 @@ def edit_certificate(id):
     )
 
 if __name__ == '__main__':
+  
     app.run(debug=True)
