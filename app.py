@@ -55,6 +55,16 @@ def init_db():
         organization TEXT,
         issue_date TEXT
     )""")
+    cursor.execute("""
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    email TEXT,
+    password TEXT,
+    bio TEXT,
+    profile_pic TEXT
+)
+""")
 
     conn.commit()
     conn.close()
